@@ -46,11 +46,9 @@ class RoboGameContainer extends Component<any, any> {
     );
   }
   placeToy = (rowPosition:number, colPosition:number) => {
-    console.log('place toy', rowPosition, colPosition);
     let robo = this.state.robo;
     robo.placeRobot(rowPosition, colPosition, Direction.North);
     this.setState({robo: robo});
-    console.log(robo.getStatus())
   }
   makeAMove = () => {
     let robo = this.state.robo;
@@ -93,10 +91,10 @@ class RoboGameControls extends Component<any, any> {
     return (
       <div>
         <div>
-          <button type="button" onClick={this.props.makeAMove}>Move</button>
-          <button type="button" onClick={this.props.makeLeft}>Left</button>
-          <button type="button" onClick={this.props.makeRight}>Right</button>
-          <button type="button" onClick={this.props.reset}>Reset</button>
+          <button type="button" className="btn btn-success" onClick={this.props.makeAMove}>Move</button>
+          <button type="button" className="btn btn-info" onClick={this.props.makeLeft}>Left</button>
+          <button type="button" className="btn btn-info" onClick={this.props.makeRight}>Right</button>
+          <button type="button" className="btn btn-warning" onClick={this.props.reset}>Reset</button>
         </div>
         <div>
           <form onSubmit={this.updateToyPosition}>
@@ -108,7 +106,7 @@ class RoboGameControls extends Component<any, any> {
                 Column Position:
                 <input type="text" name="colPosition" value={this.state.column} onChange={this.handleColumnChange}/>
             </label>
-            <input type="submit" value="Place Toy"/>
+            <input type="submit" value="Place Toy" className="btn btn-primary"/>
           </form>
         </div>
       </div>
