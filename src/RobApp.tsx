@@ -51,28 +51,24 @@ class RoboGame extends Component<any, any> {
     let robo = this.state.robo;
     robo.move();
     this.setState({robo: robo});
-    let status = this.state.robo.getStatus();
   }
 
   makeLeft(){
     let robo = this.state.robo;
     robo.updatePosition(MoveDirection.Left);
     this.setState({robo: robo});
-    let status = this.state.robo.getStatus();
   }
 
   makeRight(){
     let robo = this.state.robo;
     robo.updatePosition(MoveDirection.Right);
     this.setState({robo: robo});
-    let status = this.state.robo.getStatus();
   }
   
   reset(){
     let robo = this.state.robo;
-    robo = new ToyRobot()
+    robo = new ToyRobot(4,4)
     this.setState({robo: robo});
-    let status = this.state.robo.getStatus();
   }
 }
 
