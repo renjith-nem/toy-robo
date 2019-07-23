@@ -31,6 +31,7 @@ class ToyRobot {
     newColumnPosition: number,
     newDirection: Direction
   ) {
+    
     if (!this.canMove(newRowPosition, newColumnPosition)) {
       throw new Error('Invalid position');
     }
@@ -38,6 +39,7 @@ class ToyRobot {
     this._current_row = newRowPosition;
     this._current_column = newColumnPosition;
     this._direction = newDirection;
+    this.updateCssClass();
   }
 
   getStatus() {
@@ -58,6 +60,10 @@ class ToyRobot {
       newValue = 4;
     }
     this._direction = newValue;
+    this.updateCssClass();
+  }
+
+  updateCssClass(){
     switch (this._direction) {
       case Direction.North: {
         this._css_class = 'Robo-Toy-logo-North';

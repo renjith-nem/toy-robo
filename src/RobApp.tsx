@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, FormEvent, ChangeEvent } from 'react';
 import ToyRobot from './Robot'
 import logo from './downArrow.png';
 import './RoboApp.css';
 import MoveDirection from './MoveDirection';
+import Direction from './Direction';
 
 class RoboApp extends Component<any,any> {
   render(){
@@ -23,6 +24,7 @@ class RoboGameContainer extends Component<any, any> {
     this.makeLeft = this.makeLeft.bind(this);
     this.makeRight = this.makeRight.bind(this);
     this.reset = this.reset.bind(this);
+    this.placeToy = this.placeToy.bind(this);
   }
   render(){
     return (
@@ -33,8 +35,8 @@ class RoboGameContainer extends Component<any, any> {
           </h1>
         </header>
         <RoboGameControls makeAMove={this.makeAMove} makeLeft={this.makeLeft}
-            makeRight={this.makeRight} reset={this.reset}/>
-            
+            makeRight={this.makeRight} reset={this.reset} placeToy={this.placeToy}/>
+
         <ToyContainer maxRows={this.state.robo.getGridRowSize()} 
           maxCols={this.state.robo.getGridColumnSize()}
           rowPosition={this.state.robo.getStatus().position_row} 
@@ -43,26 +45,32 @@ class RoboGameContainer extends Component<any, any> {
       </div>
     );
   }
-
-  makeAMove(){
+  placeToy = (rowPosition:number, colPosition:number) => {
+    console.log('place toy', rowPosition, colPosition);
+    let robo = this.state.robo;
+    robo.placeRobot(rowPosition, colPosition, Direction.North);
+    this.setState({robo: robo});
+    console.log(robo.getStatus())
+  }
+  makeAMove = () => {
     let robo = this.state.robo;
     robo.move();
     this.setState({robo: robo});
   }
 
-  makeLeft(){
+  makeLeft= () => {
     let robo = this.state.robo;
     robo.updatePosition(MoveDirection.Left);
     this.setState({robo: robo});
   }
 
-  makeRight(){
+  makeRight= () => {
     let robo = this.state.robo;
     robo.updatePosition(MoveDirection.Right);
     this.setState({robo: robo});
   }
   
-  reset(){
+  reset= () => {
     let robo = this.state.robo;
     robo = new ToyRobot(4,4)
     this.setState({robo: robo});
@@ -70,6 +78,17 @@ class RoboGameContainer extends Component<any, any> {
 }
 
 class RoboGameControls extends Component<any, any> {  
+
+  constructor(props: any){
+    super(props);
+    this.state ={
+      row: '',
+      column: ''
+    }
+    this.handleRowChange = this.handleRowChange.bind(this);
+    this.handleColumnChange = this.handleColumnChange.bind(this);
+    this.updateToyPosition = this.updateToyPosition.bind(this);
+  }
   render(){
     return (
       <div>
@@ -80,9 +99,33 @@ class RoboGameControls extends Component<any, any> {
           <button type="button" onClick={this.props.reset}>Reset</button>
         </div>
         <div>
+          <form onSubmit={this.updateToyPosition}>
+            <label> 
+                Row Position:
+                <input type="text" value={this.state.row} name="rowPosition" onChange={this.handleRowChange}/>
+            </label>
+            <label> 
+                Column Position:
+                <input type="text" name="colPosition" value={this.state.column} onChange={this.handleColumnChange}/>
+            </label>
+            <input type="submit" value="Place Toy"/>
+          </form>
         </div>
       </div>
     );
+  }
+
+  handleRowChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({row: event.target.value});
+  }
+
+  handleColumnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({column: event.target.value});
+  }
+
+  updateToyPosition = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    this.props.placeToy(Number(this.state.row), Number(this.state.column));
   }
 }
 class ToyContainer extends Component<any,any> {
@@ -126,8 +169,9 @@ class GridTable extends Component<any, any> {
       const colToRender = this.props.colPosition;
       const toyCssClass = this.props.toyCssClass;
       let cols = [];
+      
       for(var col=0; col<maxCols; col++){
-        let shouldRenderToy = (col === colToRender)? true:false;
+        let shouldRenderToy = (col === colToRender)? true : false;
         cols.push(<GridCell key={col} shouldRenderToy={shouldRenderToy} toyCssClass={toyCssClass}/>);
       }
       return (
