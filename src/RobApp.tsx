@@ -4,32 +4,40 @@ import logo from './downArrow.png';
 import './RoboApp.css';
 import MoveDirection from './MoveDirection';
 
-class RoboApp extends Component<any, any> {
-
-  
-state = {
-  robo: new ToyRobot()
+class RoboApp extends Component<any,any> {
+  render(){
+    return (
+      <RoboGame/>
+    );
+  }
 }
 
-constructor(props:any){
-  super(props);
-  this.makeAMove = this.makeAMove.bind(this);
-  this.makeLeft = this.makeLeft.bind(this);
-  this.makeRight = this.makeRight.bind(this);
-  this.reset = this.reset.bind(this);
-}
+class RoboGame extends Component<any, any> {  
+  state = {
+    robo: new ToyRobot(4, 4)
+  }
+
+  constructor(props:any){
+    super(props);
+    this.makeAMove = this.makeAMove.bind(this);
+    this.makeLeft = this.makeLeft.bind(this);
+    this.makeRight = this.makeRight.bind(this);
+    this.reset = this.reset.bind(this);
+  }
   render(){
     return (
       <div className="App">
         <header className="App-header">
-          <p>
+          <h1>
             Robo App
-          </p>
+          </h1>
         </header>
+
         <button type="button" onClick={this.makeAMove}>Move</button>
         <button type="button" onClick={this.makeLeft}>Left</button>
         <button type="button" onClick={this.makeRight}>Right</button>
         <button type="button" onClick={this.reset}>Reset</button>
+        
         <ToyContainer maxRows={this.state.robo.getGridRowSize()} 
           maxCols={this.state.robo.getGridColumnSize()}
           rowPosition={this.state.robo.getStatus().position_row} 
