@@ -7,12 +7,12 @@ import MoveDirection from './MoveDirection';
 class RoboApp extends Component<any,any> {
   render(){
     return (
-      <RoboGame/>
+      <RoboGameContainer/>
     );
   }
 }
 
-class RoboGame extends Component<any, any> {  
+class RoboGameContainer extends Component<any, any> {  
   state = {
     robo: new ToyRobot(4, 4)
   }
@@ -32,12 +32,9 @@ class RoboGame extends Component<any, any> {
             Robo App
           </h1>
         </header>
-        <div/>
-        <button type="button" onClick={this.makeAMove}>Move</button>
-        <button type="button" onClick={this.makeLeft}>Left</button>
-        <button type="button" onClick={this.makeRight}>Right</button>
-        <button type="button" onClick={this.reset}>Reset</button>
-        <div/>
+        <RoboGameControls makeAMove={this.makeAMove} makeLeft={this.makeLeft}
+            makeRight={this.makeRight} reset={this.reset}/>
+            
         <ToyContainer maxRows={this.state.robo.getGridRowSize()} 
           maxCols={this.state.robo.getGridColumnSize()}
           rowPosition={this.state.robo.getStatus().position_row} 
@@ -72,6 +69,22 @@ class RoboGame extends Component<any, any> {
   }
 }
 
+class RoboGameControls extends Component<any, any> {  
+  render(){
+    return (
+      <div>
+        <div>
+          <button type="button" onClick={this.props.makeAMove}>Move</button>
+          <button type="button" onClick={this.props.makeLeft}>Left</button>
+          <button type="button" onClick={this.props.makeRight}>Right</button>
+          <button type="button" onClick={this.props.reset}>Reset</button>
+        </div>
+        <div>
+        </div>
+      </div>
+    );
+  }
+}
 class ToyContainer extends Component<any,any> {
   render(){
     const maxRows = this.props.maxRows;
