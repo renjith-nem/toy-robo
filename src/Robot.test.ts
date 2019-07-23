@@ -8,7 +8,7 @@ test('Test Robot Movements', () => {
 
   //Initial Status of the Robot
   let status = robo.getStatus();
-  expect(status.direction).toEqual(Direction.North);
+  expect(status.direction).toEqual(Direction.South);
   expect(status.position_row).toEqual(0);
   expect(status.position_column).toEqual(0);
 
@@ -21,7 +21,7 @@ test('Test Robot Movements', () => {
 
   // Place the bot on an invalid position on the board.
   expect(() => {
-    robo.placeRobot(-1, -11, Direction.Right);
+    robo.placeRobot(-1, -11, Direction.South);
   }).toThrow();
 
   // Move to West
@@ -43,7 +43,7 @@ test('Test Robot Movements', () => {
   // Move to East
   robo.updatePosition(MoveDirection.Right);
 
-  // Move 2 position to west
+  // Move 2 position to East
   robo.move();
   robo.move();
   status = robo.getStatus();
@@ -56,7 +56,7 @@ test('Test Robot Movements', () => {
   robo.move();
   status = robo.getStatus();
   expect(status.direction).toEqual(Direction.North);
-  expect(status.position_row).toEqual(2);
+  expect(status.position_row).toEqual(0);
   expect(status.position_column).toEqual(2);
 
   // Move to South
@@ -68,8 +68,11 @@ test('Test Robot Movements', () => {
   robo.move();
   robo.move();
   status = robo.getStatus();
-  expect(status.position_row).toEqual(0);
+  expect(status.position_row).toEqual(2);
   expect(status.position_column).toEqual(2);
+
+  robo.move();
+  robo.move();
   expect(() => {
     robo.move();
   }).toThrow();

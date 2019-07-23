@@ -8,17 +8,23 @@ class ToyRobot {
   private _direction: Direction;
   private _current_row: number;
   private _current_column: number;
+  private _css_class: String;
 
   constructor(rows: number = 5, columns: number = 5) {
     this._maxRows = rows;
     this._maxColumns = columns;
-    this._direction = Direction.North;
+    this._direction = Direction.South;
     this._current_row = 0;
     this._current_column = 0;
+    this._css_class = 'Robo-Toy-logo-South';
   }
 
-  throwError() {
-    throw new Error('Invalid position');
+  getGridRowSize(){
+    return this._maxRows;
+  }
+
+  getGridColumnSize(){
+    return this._maxColumns;
   }
   placeRobot(
     newRowPosition: number,
@@ -52,6 +58,27 @@ class ToyRobot {
       newValue = 4;
     }
     this._direction = newValue;
+    switch (this._direction) {
+      case Direction.North: {
+        this._css_class = 'Robo-Toy-logo-North';
+        break;
+      }
+
+      case Direction.South: {
+        this._css_class = 'Robo-Toy-logo-South';
+        break;
+      }
+
+      case Direction.East: {
+        this._css_class = 'Robo-Toy-logo-East';
+        break;
+      }
+
+      case Direction.West: {
+        this._css_class = 'Robo-Toy-logo-West';
+        break;
+      }
+    }
   }
 
   move() {
@@ -59,12 +86,12 @@ class ToyRobot {
     let newColumn = this._current_column;
     switch (this._direction) {
       case Direction.North: {
-        newRow++;
+        newRow--;
         break;
       }
 
       case Direction.South: {
-        newRow--;
+        newRow++;
         break;
       }
 
@@ -89,13 +116,17 @@ class ToyRobot {
   canMove(row: Number, column: Number) {
     if (
       row < 0 ||
-      row > this._maxRows ||
+      row >= this._maxRows ||
       column < 0 ||
-      column > this._maxColumns
+      column >= this._maxColumns
     ) {
       return false;
     }
     return true;
+  }
+
+  getCssClass(){
+    return this._css_class;
   }
 }
 
