@@ -32,12 +32,12 @@ class RoboGame extends Component<any, any> {
             Robo App
           </h1>
         </header>
-
+        <div/>
         <button type="button" onClick={this.makeAMove}>Move</button>
         <button type="button" onClick={this.makeLeft}>Left</button>
         <button type="button" onClick={this.makeRight}>Right</button>
         <button type="button" onClick={this.reset}>Reset</button>
-        
+        <div/>
         <ToyContainer maxRows={this.state.robo.getGridRowSize()} 
           maxCols={this.state.robo.getGridColumnSize()}
           rowPosition={this.state.robo.getStatus().position_row} 
@@ -130,7 +130,9 @@ class GridTable extends Component<any, any> {
       const shouldRenderToy = this.props.shouldRenderToy;
       let cellData = (shouldRenderToy)?<img src={logo} className={toyCssClass} alt="logo" />:'';
       return (
-        <td className="CellData">{cellData}</td>
+        <td className="tableData">
+          <div className="CellData">{cellData}</div>
+        </td>
       );
     }
   };

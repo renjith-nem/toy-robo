@@ -29,11 +29,17 @@
     transform: rotate(90deg);
   }
 
+.tableData {
+    padding: 8px;
+    align-items: center;
+}
+
 .CellData {
-    border-style: dotted;
+    align: center;
+    border-style: solid;
     background-color: lightgrey;
-    padding: 20px;
     border-radius: 5px;
     height: 180px;
-    width: 100px;
+    width: 150px;
+    padding: 25px;
 }
